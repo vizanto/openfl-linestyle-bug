@@ -5,24 +5,43 @@ import flash.geom.Point;
 class Main extends Sprite
 {
 	public function new () {
-		super ();
-		var blub = new SpeechBubble(solidLine);
-		addChild(blub);	
-		blub.x = blub.y = 100;
+		super();
 
-		var blub2 = new SpeechBubble(radialGradientLine);
-		addChild(blub2);	
-		blub2.x = 100;
-		blub2.y = 200;
+		for (i in [100, 400])
+		{
+			var blub1 = new SpeechBubble(solidLine);
+			addChild(blub1);	
+			blub1.y = 100;
 
-		var blub3 = new SpeechBubble(linearGradientLine);
-		addChild(blub3);	
-		blub3.x = 100;
-		blub3.y = 280;
+			var blub2 = new SpeechBubble(radialGradientLine);
+			addChild(blub2);	
+			blub2.y = 200;
+
+			var blub3 = new SpeechBubble(linearGradientLine);
+			addChild(blub3);	
+			blub3.y = 280;
+
+			if (i == 400) {
+				var ct : flash.geom.ColorTransform = new flash.geom.ColorTransform();
+				var offset = Math.floor( 0xE6 * 0.8 );
+				ct.redOffset = offset;
+				ct.greenOffset = offset;
+				ct.blueOffset = offset;
+				ct.redMultiplier = 0.2;
+				ct.greenMultiplier = 0.2;
+				ct.blueMultiplier = 0.2;
+				
+				blub1.transform.colorTransform = 
+				blub2.transform.colorTransform = 
+				blub3.transform.colorTransform = ct;
+			}
+
+			blub1.x = blub2.x = blub3.x = i;
+		}
 	}
 
 	function solidLine(g:Graphics) {
-		g.lineStyle( SpeechBubble.lineWidth, 0, 1, true );
+		g.lineStyle( SpeechBubble.lineWidth, 0x00FF00, 1, true );
 	}
 
 	function radialGradientLine (g:Graphics) {
@@ -52,6 +71,31 @@ enum Direction {
 	Right;
 }
 
+class Text extends flash.display.Sprite
+{
+	function new() {
+		super();
+
+		var text = new flash.text.TextField();
+		text.autoSize = flash.text.TextFieldAutoSize.LEFT;
+		text.antiAliasType = flash.text.AntiAliasType.ADVANCED;
+		text.alpha = 0.5;
+		text.borderColor = 0xFF00FF;
+
+		var format = new flash.text.TextFormat();
+	//	format.font = "Lucida Sans Typewriter Regular";
+	//	text.embedFonts = true;
+		//format.color = 0xFF0000;
+		format.size = 12;
+		text.width = 200;
+		text.height = 20;
+		text.border = true;
+		text.text = "Hello world";
+		addChild(text);
+		text.setTextFormat(format);
+	}
+}
+
 class SpeechBubble extends flash.display.Sprite
 {
 	static public var lineWidth = 8.0;
@@ -71,6 +115,8 @@ class SpeechBubble extends flash.display.Sprite
 		this.lineStyle = lineStyle;
 		super();
 		drawBubble( 200, 40, Right );
+		addChild(new Text());
+		buttonMode = true;
 	}
 
 		//Draws a speechbubble
