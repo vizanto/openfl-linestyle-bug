@@ -34,6 +34,9 @@ class Main extends Sprite
 				blub1.transform.colorTransform = 
 				blub2.transform.colorTransform = 
 				blub3.transform.colorTransform = ct;
+				blub1.nextColorTransform =
+				blub2.nextColorTransform =
+				blub3.nextColorTransform = new flash.geom.ColorTransform();
 			}
 
 			blub1.x = blub2.x = blub3.x = i;
@@ -117,9 +120,23 @@ class SpeechBubble extends flash.display.Sprite
 		drawBubble( 200, 40, Right );
 		addChild(new Text());
 		buttonMode = true;
+
+		this.addEventListener(flash.events.Event.ENTER_FRAME, swapColorTransform);
 	}
 
-		//Draws a speechbubble
+	public var nextColorTransform : flash.geom.ColorTransform;
+
+	function swapColorTransform(e)
+	{
+		if (nextColorTransform == null) return;
+		var next = this.nextColorTransform;
+		trace(nextColorTransform);
+		this.nextColorTransform = this.transform.colorTransform;
+		this.transform.colorTransform = next;
+	}
+
+
+	//Draws a speechbubble
 	private function drawBubble( bubbleWidth : Float, bubbleHeight: Float, arrowDirection : Direction ) {
 		//Create a sprite
 		var surroundings  = new Sprite();

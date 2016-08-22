@@ -3,6 +3,8 @@
 	
 	<meta title="Speechbubble" package="com.sample.speechbubble" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="Speechbubble" />
+
+	<window fps="1"/>
 	
 	<source path="Source" />
 	
